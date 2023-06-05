@@ -15,6 +15,32 @@ class Cartitems extends React.Component{
 
     increaseQuantity = ()=> {
         console.log("this.state",this.state);
+        // // setState form 1
+        // this.setState({
+        //     qty: this.state.qty +1
+        // });
+        // setSte form 2 - use if prev state requred
+        this.setState((prevState)=>{
+            return {
+                qty : prevState.qty + 1
+            }
+        });
+    }
+
+    decreaseQuantity = () => {
+        console.log("this.state",this.state);
+        this.setState((prevState) => {
+            if(prevState.qty != 0){
+                return{
+                    qty : prevState.qty -1
+                }
+            } else
+            {
+                return{
+                    qty : prevState.qty
+               }
+            }
+        });
     }
 
     render(){
@@ -47,6 +73,7 @@ class Cartitems extends React.Component{
                     alt="decrease" 
                     className="action-icons" 
                     src="https://www.svgrepo.com/show/506729/minus-circle.svg"
+                    onClick={this.decreaseQuantity}
                     
                 />
             </div>
