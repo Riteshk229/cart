@@ -2,66 +2,69 @@ import React from "react";
 
 class Cartitems extends React.Component{
 
-    // constructor(){
-    //     super();
-    //     this.state ={
-    //         title: "Phone",
-    //         price: "999",
-    //         qty: 2,
-    //         image : " "
-    //     }
-    //     // this.increaseQuantity = this.increaseQuantity.bind(this);
-    // };
+    // {
+    //      // constructor(){
+    // //     super();
+    // //     this.state ={
+    // //         title: "Phone",
+    // //         price: "999",
+    // //         qty: 2,
+    // //         image : " "
+    // //     }
+    // //     // this.increaseQuantity = this.increaseQuantity.bind(this);
+    // // };
 
-    increaseQuantity = ()=> {
-        // console.log("this.state",this.state);
-        // // setState form 1
-        // this.setState({
-        //     qty: this.state.qty +1
-        // });
-        // setSte form 2 - use if prev state requred
-        console.log(this.state)
-        this.setState((prevState)=>{
-            return {
-                qty : prevState.qty + 1
-            }
-        });
+    // // increaseQuantity = ()=> {
+    // //     // console.log("this.state",this.state);
+    // //     // // setState form 1
+    // //     // this.setState({
+    // //     //     qty: this.state.qty +1
+    // //     // });
+    // //     // setSte form 2 - use if prev state requred
+    // //     console.log(this.state)
+    // //     this.setState((prevState)=>{
+    // //         return {
+    // //             qty : prevState.qty + 1
+    // //         }
+    // //     });
 
-        console.log('Render Increase');
-    }
+    // //     console.log('Render Increase');
+    // // }
 
-    decreaseQuantity = () => {
-        // console.log("this.state",this.state);
-        const {qty} = this.state;
-        if(qty == 0){
-            return;
-        }
-        this.setState((prevState) => {
-            if(prevState.qty != 0){
-                return{
-                    qty : prevState.qty -1
-                }
-            // } else
-            // {
-            //     return{
-            //         qty : prevState.qty
-            //    }
-            }
-        });
+    // // decreaseQuantity = () => {
+    // //     // console.log("this.state",this.state);
+    // //     const {qty} = this.state;
+    // //     if(qty == 0){
+    // //         return;
+    // //     }
+    // //     this.setState((prevState) => {
+    // //         if(prevState.qty != 0){
+    // //             return{
+    // //                 qty : prevState.qty -1
+    // //             }
+    // //         // } else
+    // //         // {
+    // //         //     return{
+    // //         //         qty : prevState.qty
+    // //         //    }
+    // //         }
+    // //     });
 
-        console.log('Render decrease');
-    }
+    // //     console.log('Render decrease');
+    // // }
 
+    // }
+    
     render(){
 
-        const { items } = this.props;
-        // Check if items prop is undefined or null
-        if (!items) {
+        const { product } = this.props;
+        // Check if product prop is undefined or null
+        if (!product) {
           return null;
         }
 
-        const { title, price, qty } = items;
-        // console.log("this.props.items",this.props.items);
+        const { title, price, qty } = product;
+        console.log("this.props",this.props);
         return (
             <div className="cart-item">
             <div className="left">
@@ -84,13 +87,13 @@ class Cartitems extends React.Component{
                     alt="increase" 
                     className="action-icons" 
                     src="https://www.svgrepo.com/show/507821/plus-circle.svg"
-                    onClick={this.increaseQuantity}
+                    onClick={()=> this.props.onIncreaseQuantity(product)}
                 />
                 <img 
                     alt="decrease" 
                     className="action-icons" 
                     src="https://www.svgrepo.com/show/506729/minus-circle.svg"
-                    onClick={this.decreaseQuantity}
+                    onClick={() => this.props.onDecreaseQuantity(product)}
                     
                 />
             </div>
