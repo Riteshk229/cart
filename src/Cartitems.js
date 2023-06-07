@@ -14,7 +14,7 @@ class Cartitems extends React.Component{
     };
 
     increaseQuantity = ()=> {
-        console.log("this.state",this.state);
+        // console.log("this.state",this.state);
         // // setState form 1
         // this.setState({
         //     qty: this.state.qty +1
@@ -25,22 +25,30 @@ class Cartitems extends React.Component{
                 qty : prevState.qty + 1
             }
         });
+
+        console.log('Render Increase');
     }
 
     decreaseQuantity = () => {
-        console.log("this.state",this.state);
+        // console.log("this.state",this.state);
+        const {qty} = this.state;
+        if(qty == 0){
+            return;
+        }
         this.setState((prevState) => {
             if(prevState.qty != 0){
                 return{
                     qty : prevState.qty -1
                 }
-            } else
-            {
-                return{
-                    qty : prevState.qty
-               }
+            // } else
+            // {
+            //     return{
+            //         qty : prevState.qty
+            //    }
             }
         });
+
+        console.log('Render decrease');
     }
 
     render(){
