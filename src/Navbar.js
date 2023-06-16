@@ -35,12 +35,14 @@ const style = {
         marginRight: 40
     },
     nav : {
-        height : 70,
+        paddingTop : 5,
+        height : 60,
         background: '#3A00B2',
         display: 'flex',
         justifyContent : 'flex-end',
         alignItems: 'center',
         position: 'sticky',
+        top:0
     },
     cartIconContainer : {
         position : 'relative'

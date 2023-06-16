@@ -13,12 +13,12 @@ const Cartitems = (props)=>{
         //   return null;
         // }
 
-        const { title, price, qty } = product;
+        const { title, price, qty,image } = product;
         
         return (
             <div className="cart-item">
                 <div className="left">
-                    <img style={styles.image}/>
+                    <img style={styles.image} src={image}/>
                     {/* <img alt='Product Image' style={styles.image}/> */}
                 </div>
                 <div className="right">
