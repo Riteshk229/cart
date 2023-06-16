@@ -2,12 +2,13 @@ import React from "react";
 
 // Functional Component
 const Navbar = (props)=>{
-  
+
+    console.log(props);
         return (
             <div style={style.nav}>
                 <div style={style.cartIconContainer}>
                     <img style={style.cartIcon} src='https://www.svgrepo.com/show/509786/cart.svg' alt="cart-icon"/>
-                    <span style={style.cartCount}> 3 </span>
+                    <span style={style.cartCount}> {props.count} </span>
                 </div>
             </div>
         );
@@ -29,8 +30,8 @@ const Navbar = (props)=>{
 
 const style = {
     cartIcon : {
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
         marginRight: 40
     },
     nav : {
@@ -38,7 +39,8 @@ const style = {
         background: '#3A00B2',
         display: 'flex',
         justifyContent : 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'sticky',
     },
     cartIconContainer : {
         position : 'relative'
@@ -48,8 +50,8 @@ const style = {
         background: 'Yellow',
         opacity: '0.9',
         borderRadius: '50%',
-        top: -7,
-        right:42,
+        top: -3,
+        right:38,
         padding: '2px 6px'
     }
 };
