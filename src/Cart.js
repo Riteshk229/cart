@@ -6,7 +6,8 @@ class Cart extends React.Component{
         super();
         this.state ={
             products : [
-                {   title: "Phone",
+            {
+                title: "Phone",
                 price: 9999,
                 qty: 5,
                 image : " ",
@@ -26,10 +27,11 @@ class Cart extends React.Component{
             }
         ]
     }
-}
 
-handleIncreaseQuantity = (product) => {
-    console.log("Hey increase quantitty of ", product);
+    }
+
+    handleIncreaseQuantity = (product) => {
+    console.log("Hey increase quantity of ", product);
     const {products} = this.state;
     const index = products.indexOf(product);
 
@@ -38,21 +40,36 @@ handleIncreaseQuantity = (product) => {
     this.setState({
         products : products
     });
-} 
+    };
 
-handleDecreaseQuantity = (product) => {
+    handleDecreaseQuantity = (product) => {
     console.log("Hey deccrease quantitty of ", product);
     const {products} = this.state;
     const index = products.indexOf(product);
+
+    if (products[index].qty === 0){
+        return;
+    }
 
     products[index].qty -= 1;
 
     this.setState({
         products : products
     });
-} 
+    };
 
-render(){
+    handleDeleteItems = (id) => {
+        console.log(`Deleting Product with id  :${id}`);
+        const {products} = this.state;
+        const newList = products.filter((item) => item.id !== id); // [new array of products]
+        console.log("New List of Products", newList);
+
+        this.setState({
+            products :newList
+        });
+    }
+
+    render(){
     // console.log("this.state",this.state);
     const { products } = this.state;
     return (
@@ -63,11 +80,11 @@ render(){
                         key = {product.id}
                         onIncreaseQuantity = {this.handleIncreaseQuantity}
                         onDecreaseQuantity = {this.handleDecreaseQuantity}
+                        onDeleteItems = {this.handleDeleteItems}
                     />
                 ))}
-            <Cartitems/>
             {/* <Cartitems />
-        <Cartitems /> */}
+            <Cartitems /> */}
         </div>
         );
     }

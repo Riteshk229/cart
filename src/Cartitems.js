@@ -55,49 +55,58 @@ class Cartitems extends React.Component{
 
     // }
     
+    
     render(){
+        console.log("this.props ****** ",this.props);
 
-        const { product } = this.props;
-        // Check if product prop is undefined or null
-        if (!product) {
-          return null;
-        }
+        const { 
+            product,
+            onIncreaseQuantity,
+            onDecreaseQuantity,
+            onDeleteItems } = this.props;
+
+        // // Check if product prop is undefined or null
+        // if (!product) {
+        //   return null;
+        // }
 
         const { title, price, qty } = product;
-        console.log("this.props",this.props);
+        
         return (
             <div className="cart-item">
-            <div className="left">
-            <img style={styles.image}/>
-            {/* <img alt='Product Image' style={styles.image}/> */}
-            </div>
-            <div className="right">
-            <div className="product-details">
-            <div style={{fontSize : 30}}>{title}</div>
-            <div style={{color:"grey"}}>Rs {price}</div>
-            <div style={{color:"grey"}}>Qty : {qty}</div>
-            </div>
-            <div className="cart-item-actions">
-                <img 
-                    alt="delete"
-                    className="action-icons" 
-                    src="https://www.svgrepo.com/show/502608/delete-2.svg"
-                 />
-                <img 
-                    alt="increase" 
-                    className="action-icons" 
-                    src="https://www.svgrepo.com/show/507821/plus-circle.svg"
-                    onClick={()=> this.props.onIncreaseQuantity(product)}
-                />
-                <img 
-                    alt="decrease" 
-                    className="action-icons" 
-                    src="https://www.svgrepo.com/show/506729/minus-circle.svg"
-                    onClick={() => this.props.onDecreaseQuantity(product)}
-                    
-                />
-            </div>
-            </div>
+                {this.props.jsx}
+                <div className="left">
+                    <img style={styles.image}/>
+                    {/* <img alt='Product Image' style={styles.image}/> */}
+                </div>
+                <div className="right">
+                    <div className="product-details">
+                        <div style={{fontSize : 30}}>{title}</div>
+                        <div style={{color:"grey"}}>Rs {price}</div>
+                        <div style={{color:"grey"}}>Qty : {qty}</div>
+                    </div>
+                    {/* Buttons */}
+                    <div className="cart-item-actions">
+                        <img 
+                            alt="delete"
+                            className="action-icons" 
+                            src="https://www.svgrepo.com/show/502608/delete-2.svg"
+                            onClick={()=>onDeleteItems(product.id)}
+                        />
+                        <img 
+                            alt="increase" 
+                            className="action-icons" 
+                            src="https://www.svgrepo.com/show/507821/plus-circle.svg"
+                            onClick={()=> onIncreaseQuantity(product)}
+                        />
+                        <img 
+                            alt="decrease" 
+                            className="action-icons" 
+                            src="https://www.svgrepo.com/show/506729/minus-circle.svg"
+                            onClick={() => onDecreaseQuantity(product)} 
+                    />
+                    </div>
+                </div>
             </div>
             );
         }
