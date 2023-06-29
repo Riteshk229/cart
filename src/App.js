@@ -50,6 +50,9 @@ class App extends React.Component {
     this.db
     // .collection("Collection Name")  to acces the said collection in database
     .collection('Products')
+    // where("field","Condition","Value") can be used to fetch the  desired products
+    .where("price", "==" , 99)
+    .where("title", "==",'Mouse')
     // onSanpshot(callback function) acts as an event listener and
     // listen to  any changes on the firebase database  
     .onSnapshot((snapshot) => {
@@ -82,10 +85,10 @@ class App extends React.Component {
     // add method return a promise which reject/resolve the action
     // we can handle it by using .then(callback function) and catch(callback function)
     .add({
-      img   : '',
+      img   : 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/LEI0440_Leica_IIIf_chrom_-_Sn._580566_1951-52-M39_Blitzsynchron_front_view-6531_hf-.jpg/1200px-LEI0440_Leica_IIIf_chrom_-_Sn._580566_1951-52-M39_Blitzsynchron_front_view-6531_hf-.jpg',
       price : 990,
       qty   : 3,
-      title : "Washing Machine"
+      title : "Camera"
     }).then((docRef) => {
       console.log("Product has been added",docRef);
     }).catch((error)=>{
@@ -106,14 +109,16 @@ class App extends React.Component {
       //   products : products
       // });
     }
-
+    
     // this increases the product via firebase
     console.log("Hey increase the quantity in firebase of : ", product.title );
     const {products} = this.state;
     const index = products.indexOf(product);
-
+    
     const docRef = this.db.collection('Products').doc(products[index].id);
-
+    
+     // update method return a promise which reject/resolve the action
+    // we can handle it by using .then(callback function) and catch(callback function)
     docRef.update({
       qty : products[index].qty + 1
     }).then(() => {
@@ -121,52 +126,69 @@ class App extends React.Component {
     }).catch((error)=>{
       console.log("Error when updating",error);
     });
-
+    
   };
   
   handleDecreaseQuantity = (product) => {
-     // this decrease the product via state
+    // this decrease the product via state
     {
-    // console.log("Hey deccrease quantitty of ", product);
-    // const {products} = this.state;
-    // const index = products.indexOf(product);
-    
-    // if (products[index].qty === 0){
-    //   return;
-    // }
-    
-    // products[index].qty -= 1;
-    
-    // this.setState({
-    //   products : products
-    // });
+      // console.log("Hey deccrease quantitty of ", product);
+      // const {products} = this.state;
+      // const index = products.indexOf(product);
+      
+      // if (products[index].qty === 0){
+      //   return;
+      // }
+      
+      // products[index].qty -= 1;
+      
+      // this.setState({
+      //   products : products
+      // });
     }
-
+    
     // this decrease the product via firebase
     console.log("Hey decrease the quantity in firebase of : ", product.title );
     const {products} = this.state;
     const index = products.indexOf(product);
-
+    
     const docRef = this.db.collection("Products").doc(products[index].id);
     docRef.update({
-      qty : products[index].qty - 1
+      // qty : products[index].qty - 1
+      qty : product.qty - 1
     }).then(()=>{
       console.log(`Quantity of ${product.title} updated successfully`);
     }).catch((error)=> {
       console.log("Error when updating",error);
     });
-
+    
   }
   
   handleDeleteItems = (id) => {
+    {
+      // console.log(`Deleting Product with id  :${id}`);
+      // const {products} = this.state;
+      // const newList = products.filter((item) => item.id !== id); // [new array of products]
+      // console.log("New List of Products", newList);
+      
+      // this.setState({
+      //   products :newList
+      // });
+    }
+    
     console.log(`Deleting Product with id  :${id}`);
     const {products} = this.state;
-    const newList = products.filter((item) => item.id !== id); // [new array of products]
-    console.log("New List of Products", newList);
     
-    this.setState({
-      products :newList
+    const docRef = this.db.collection("Products").doc(id);
+    
+    docRef
+    .delete()
+    .then(()=> {
+      console.log("Product deleted successfully.")
+    }).catch((error)=> {
+      console.log("Error",error)
     });
+
   }
   
   getCartCount= () =>{
@@ -198,7 +220,7 @@ class App extends React.Component {
       <div className="App">
       <Navbar count={this.getCartCount()}/>
       <h1> My Cart</h1>
-      {/* <button onClick={this.addProduct} style={{padding : 10, fontSize : 20}} >Add a product</button> */}
+      <button onClick={this.addProduct} style={{padding : 10, fontSize : 20}} >Add a product</button>
       <Cart 
       products = {products}
       onIncreaseQuantity = {this.handleIncreaseQuantity}
