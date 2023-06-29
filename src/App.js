@@ -12,64 +12,103 @@ class App extends React.Component {
       loading: true
     }
     
+    this.db = firebase.firestore();
+    
   }
-
+  
   componentDidMount(){
+    
+    {
+      // firebase
+      //   .firestore()
+      //   .collection('Products')
+      //   .get()
+      //   .then((snapshot) => {
+      //     console.log(snapshot);
+      //     snapshot.docs.map((doc) => {
+      //       console.log(doc.data());
+      //     });
+      
+      //     const products = snapshot.docs.map((doc) => {
+      //       const data = doc.data();
+      //       data['id'] = doc.id;
+      //       return data;
+      //     });
+      //     this.setState({ 
+      //       products,
+      //       loading : false
+      //      });
+      //   })
+      //   .catch((error) => {
+      //     console.log('Error getting products: ', error);
+      //   });
+    }
+    
+    
     // firebase
     //   .firestore()
-    //   .collection('Products')
-    //   .get()
-    //   .then((snapshot) => {
-    //     console.log(snapshot);
-    //     snapshot.docs.map((doc) => {
-    //       console.log(doc.data());
-    //     });
-
-    //     const products = snapshot.docs.map((doc) => {
-    //       const data = doc.data();
-    //       data['id'] = doc.id;
-    //       return data;
-    //     });
-    //     this.setState({ 
-    //       products,
-    //       loading : false
-    //      });
-    //   })
-    //   .catch((error) => {
-    //     console.log('Error getting products: ', error);
-    //   });
-
-    firebase
-      .firestore()
-      .collection('Products')
-      .onSnapshot((snapshot) => {
-        console.log(snapshot);
-        snapshot.docs.map((doc) => {
-          console.log(doc.data());
-        });
-
-        const products = snapshot.docs.map((doc) => {
-          const data = doc.data();
-          data['id'] = doc.id;
-          return data;
-        });
-        this.setState({ 
-          products,
-          loading : false
-         });
-      })
+    this.db
+    // .collection("Collection Name")  to acces the said collection in database
+    .collection('Products')
+    // onSanpshot(callback function) acts as an event listener and
+    // listen to  any changes on the firebase database  
+    .onSnapshot((snapshot) => {
+      // console.log(snapshot);
+      
+      // .docs is to to access the data from the current snapshot
+      snapshot.docs.map((doc) => {
+        // console.log(doc.data());
+      });
+      
+      
+      const products = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        data['id'] = doc.id;
+        return data;
+      });
+      this.setState({ 
+        products,
+        loading : false
+      });
+    })
+  }
+  
+  addProduct= () => {
+    
+    // firebase
+    //   .firestore()
+    this.db
+    .collection('Products')
+    // add method return a promise which reject/resolve the action
+    // we can handle it by using .then(callback function) and catch(callback function)
+    .add({
+      img   : '',
+      price : 990,
+      qty   : 3,
+      title : "Washing Machine"
+    }).then((docRef) => {
+      console.log("Product has been added",docRef);
+    }).catch((error)=>{
+      console.log("Error",error)
+    });
   }
   
   handleIncreaseQuantity = (product) => {
-    console.log("Hey increase quantity of ", product);
-    const {products} = this.state;
-    const index = products.indexOf(product);
-    
-    products[index].qty += 1;
-    
-    this.setState({
-      products : products
-    });
+    // this updates the product via state
+    {
+      // console.log("Hey increase quantity of ", product);
+      // const {products} = this.state;
+      // const index = products.indexOf(product);
+      
+      // products[index].qty += 1;
+      
+      // this.setState({
+      //   products : products
+      // });
+    }
+
+    // this increases the product via firebase
+
   };
   
   handleDecreaseQuantity = (product) => {
@@ -98,45 +137,46 @@ class App extends React.Component {
       products :newList
     });
   }
-
+  
   getCartCount= () =>{
     const{products} = this.state;
-
+    
     let count = 0;
-
+    
     products.forEach( product=> {
       count += product.qty;
     });
-
+    
     return count;
   }
-
+  
   getCartTotal=()=>{
     const {products} = this.state;
     let total = 0;
-
+    
     products.forEach( product => {
       total += product.qty*product.price;
     });
-
+    
     return total;
   }
-
+  
   render() {
     const {products,loading} = this.state;
     return (
       <div className="App">
       <Navbar count={this.getCartCount()}/>
       <h1> My Cart</h1>
+      <button onClick={this.addProduct} style={{padding : 10, fontSize : 20}} >Add a product</button>
       <Cart 
-        products = {products}
-        onIncreaseQuantity = {this.handleIncreaseQuantity}
-        onDecreaseQuantity = {this.handleDecreaseQuantity}
-        onDeleteItems = {this.handleDeleteItems}
+      products = {products}
+      onIncreaseQuantity = {this.handleIncreaseQuantity}
+      onDecreaseQuantity = {this.handleDecreaseQuantity}
+      onDeleteItems = {this.handleDeleteItems}
       />
       {loading && <h1> Loading Products...</h1>}
       <div>
-        <h3>TOTAL: Rs {this.getCartTotal()}</h3>
+      <h3>TOTAL: Rs {this.getCartTotal()}</h3>
       </div>
       </div>
       );
